@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular Battle</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body ng-controller="MainController">
+<div>
+    <h1>{{ title }}</h1>
+</div>
+
+<!-- Grid -->
+<div class="grid" ng-init="grid()">
+    <div class="cell" id="top-castle" data-hover='{"type":"Château Ennemi"}'></div>
+    <div class="cell" id="cell-{{ case.id }}" ng-click="selectCase(case)"
+         ng-class="{discovered: case.playerDiscovered, selectable: case.isSelectable}"
+         ng-repeat="case in engine.board.cases"
+         data-hover="{{ case.contains }}"
+         data-case="{{ case }}">
+        <!-- Monster / Champion image -->
+        <img ng-show="case.playerDiscovered" src="img/{{ case.contains.getPictureName() }}.png"/>
+        <!-- Monster / Champion life bar -->
+        <div ng-show="!case.isEmpty( engine.isPlayerTurn() ) && case.contains.type != 'Piège' && case.playerDiscovered" class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{case.contains.pv}}" aria-valuemin="0" aria-valuemax="{{case.contains.maxPv}}"
+                 ng-style="{width:case.contains.getLifePercentage() + '%'}"
+                 ng-class="{'progress-bar-success': case.contains.getLifePercentage() > 50, 'progress-bar-warning': case.contains.getLifePercentage() <= 50 && case.contains.getLifePercentage() > 25, 'progress-bar-danger': case.contains.getLifePercentage() <= 25}">
+            </div>
+        </div>
+    </div>
+    <div class="cell" id="bottom-castle" data-hover='{"type":"Château"}'></div>
+</div>
+
+<!-- Alert -->
+<div ng-show="alert" class="col-md-10 col-md-offset-1 text-center">
+    <div class="alert alert-danger" ng-click="alert = ''">{{ alert }}</div>
+</div>
+
+<!-- Logs block & turn -->
+<div class="bottom">
+    <div id="logs">
+        <p ng-repeat="log in engine.logs track by $index">{{log}}</p>
+    </div>
+
+    <div class="card-block turn">
+        <h2 ng-show="engine.turn.player">Votre tour</h2>
+        <h2 ng-hide="engine.turn.player">Tour de l'adversaire</h2>
+        <p ng-class="{active: engine.activeStep == step}" ng-repeat="step in engine.steps">{{ step }}</p>
+        <button ng-disabled="!engine.turn.player || engine.turn.step != 4 || engine.playingCard != null" class="btn btn-lg btn-primary" ng-click="end()">J'ai terminé</button>
+    </div>
+</div>
+
+
+<!-- Cards -->
+<div class="bottom">
+    <!-- Trash -->
+    <div class="trash">
+        <h2>Défausse ({{ engine.player.trash.length }} carte(s))</h2>
+        <p ng-show="engine.player.trash.length == 0"><i>- Il n'y a aucune carte ici -</i></p>
+        <p ng-repeat="card in engine.player.trash">{{ card.getDisplayName() }}</p>
+    </div>
+
+    <!-- Hand -->
+    <div class="card-block">
+        <h2>Main ({{engine.player.hand.length}} carte(s))</h2>
+        <p ng-show="engine.player.hand.length == 0"><i>- Il n'y a aucune carte ici -</i></p>
+        <p onclick="$('.card-name.selected').each(function() {var item=$(this);item.removeClass('selected').find('img').attr('src', 'img/'+ item.find('img').attr('data-basepic') +'.png');});$(this).addClass('selected');$(this).find('img').attr('src', 'img/' + $(this).find('img').attr('data-basepic') + '-selected.png');" class="card-name" ng-click="selectCard(card)" ng-repeat="card in engine.player.hand">
+            <img class="icon" data-basepic="{{card.getPictureName()}}" src="img/{{card.getPictureName()}}.png"> {{ card.getDisplayName() }}
+        </p>
+    </div>
+
+    <!-- Cards infos -->
+    <div class="card-block">
+        <div class="card-details" ng-if="selectedCard">
+            <h3>{{ selectedCard.getDisplayName() }}</h3>
+            <img src="img/{{ selectedCard.getPictureName() }}.png" alt="{{ selectedCard.getPictureName() }}.png">
+            <p>{{ selectedCard.getDescription() }}</p>
+            <p class="pv" ng-if="selectedCard.pv">{{ selectedCard.pv }} <img src="img/heart.png"></p>
+            <p class="atk" ng-if="selectedCard.atk">{{ selectedCard.atk }} <img src="img/sword.png"></p>
+            <p class="turnsLeft" ng-if="selectedCard.turnsLeft">{{ selectedCard.turnsLeft }} <img src="img/hourglass.png"></p>
+            <button ng-disabled="!canPlay() || !engine.turn.player || engine.turn.step != 4 || engine.playingCard != null" ng-click="play()" class="btn btn-success btn-block"><i class="fa fa-hand-pointer-o"></i> {{ selectedCard.isPosable() ? 'Invoquer' : 'Utiliser' }}</button>
+            <button ng-disabled="!engine.turn.player || engine.turn.step != 4 || engine.playingCard != hull" ng-click="trash()" class="btn btn-danger btn-block"><i class="fa fa-times"></i> Défausser</button>
+        </div>
+    </div>
+
+    <!-- Deck -->
+    <div class="card-block text-center">
+        <h2>Deck ({{ engine.player.deck.length }} carte(s))</h2>
+        <img class="deck" src="img/card_back.png" ng-click="draw()">
+    </div>
+</div>
+
+<!-- TODO dev ennemy Cards -->
+<div class="bottom" style="border-top: 2px dashed red; background: rgba(255, 0, 0, 0.2)">
+    <div class="trash">
+        <h2>Défausse ({{ engine.ennemy.trash.length }} carte(s))</h2>
+        <p ng-show="engine.ennemy.trash.length == 0"><i>- Il n'y a aucune carte ici -</i></p>
+        <p ng-repeat="card in engine.ennemy.trash">{{ card.getDisplayName() }}</p>
+    </div>
+
+    <div class="card-block">
+        <h2>Main ({{engine.ennemy.hand.length}} carte(s))</h2>
+        <p ng-show="engine.ennemy.hand.length == 0"><i>- Il n'y a aucune carte ici -</i></p>
+        <p class="card-name" ng-repeat="card in engine.ennemy.hand">{{ card.getDisplayName() }}</p>
+    </div>
+
+    <div class="card-block"></div>
+
+    <div class="card-block text-center">
+        <h2>Deck ({{ engine.ennemy.deck.length }} carte(s))</h2>
+        <img class="deck" src="img/card_back.png">
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="/js/vendor/jquery.js"></script>
+<script src="/js/vendor/bootstrap.min.js"></script>
+<script src="/js/cards.js"></script>
+<script src="/js/engine.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+//$nbLines: 12;
+$nbColumns: 13;
+$black: #393939;
+$time: 0.2s;
+$enemy_img_color: #d44848;
+$selected_color: #ff5959;
+
+h1 {
+  color: $black;
+  text-align: center;
+}
+
+body {
+  margin: 0;
+}
+
+div.grid {
+  width: 100%;
+  min-width: 1680px;
+  border: none;
+  text-align: center;
+  position: relative;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  line-height: 80%;
+
+  // Grid cell
+  div.cell {
+    $cellWidth: 100%/$nbColumns;
+
+    width: calc(#{$cellWidth} - 10px);
+    min-width: 120px;
+    height: 100px;
+    display: inline-block;
+    border: 1px solid;
+    transition: all $time;
+    margin: 0 1px;
+    //background: #000;
+    background: $black;
+    cursor: not-allowed;
+    position: relative;
+
+    // Style for image in cases
+    img {
+      padding-bottom: 12px;
+      position: absolute;
+      top: 0;
+      left: calc(50% - 44px);
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    // Style for life progress-bar
+    .progress {
+      position: absolute;
+      height: 10px;
+      width: 100%;
+      border-radius: 0;
+      bottom: 0;
+      margin: 0;
+      border-top: 1px solid transparentize($black, 0.3);
+    }
+
+    // Style for discovered cells
+    &.discovered {
+      background: white !important;
+      cursor: inherit;
+    }
+
+    // Style for selectable cells
+    &.selectable:hover,
+    &.discovered.selectable:hover {
+      border: 2px solid gold;
+      background-color: transparentize(gold, 0.85) !important;
+      cursor: pointer;
+    }
+
+    // Special rules for castles
+    &#top-castle, &#bottom-castle {
+      //background: url('/img/castle.png') no-repeat;
+      background: url('/img/crown.png') no-repeat;
+      background-size: contain;
+      background-position: center;
+      display: block;
+      margin-left: calc(50% - 61px);
+      cursor: inherit;
+
+      &.selectable {
+        cursor: pointer;
+      }
+    }
+    &#top-castle {
+      //margin-left: (50 - $cellWidth);
+      background-color: transparentize(red, 0.35);
+      margin-bottom: 1px;
+    }
+    &#bottom-castle {
+      background-color: transparentize(greenyellow, 0.35);
+      //margin-left: (50 - $cellWidth);
+    }
+  }
+}
+
+div.bottom {
+  display: flex;
+  min-width: 1680px;
+
+  > div {
+    flex: 1;
+  }
+}
+
+div.card-block {
+  flex: 1;
+  margin-bottom: 50px;
+
+  .card-name {
+    cursor: pointer;
+    transition: all $time;
+
+    &.selected {
+      color: transparentize(red, 0.35);
+
+      &::before {
+        content: '\f0da';
+        font-family: FontAwesome;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  img.icon {
+    width: 25px;
+  }
+
+  .deck {
+    cursor: pointer;
+  }
+}
+
+div.card-details {
+  padding: 20px;
+  width: 300px;
+  display: inline-block;
+  border: 2px solid $black;
+  text-align: center;
+  
+  img {
+    width: 100px;
+  }
+  .pv img,
+  .atk img,
+  .turnsLeft img {
+    height: 26px;
+    width: auto;
+  }
+}
+
+.popover {
+  img.pv-icon,
+  img.atk-icon,
+  img.turnsLeft-icon {
+    height: 26px;
+    width: auto;
+  }
+}
+
+div.turn {
+  padding-left: 20px;
+
+  .active {
+    &::before {
+      content: '\f061';
+      margin-right: 5px;
+      font-family: FontAwesome;
+    }
+  }
+}
+
+div.trash {
+  padding-left: 20px;
+  margin-bottom: 50px;
+}
+
+.alert {
+  cursor: pointer;
+}
+
+div#logs {
+  border: 2px solid $black;
+  padding: 20px;
+  height: 200px;
+  overflow: hidden;
+  margin: 20px;
+  flex: 2;
+}
