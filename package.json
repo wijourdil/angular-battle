@@ -17,8 +17,9 @@
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.7.0",
-    "gulp-uglify": "^3.0.2",
     "gulp-sass": "^4.1.0",
-    "node-sass": "^5.0.0"
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^5.0.0",
+    "yargs-parser": "^20.2.6"
   }
 }
