@@ -52,12 +52,12 @@ function browserify() {
 // gulp watch
 // -> gulp browserify && gulp sass
 function watch() {
-    gulp.watch('app/**/*.js', ['browserify']);
+    gulp.watch('app/**/*.js', browserify());
     // Watches for changes in style.sass and runs the sass task
-    gulp.watch('sass/style.scss', ['sass']);
+    gulp.watch('sass/style.scss', sass());
     // Watch other JS modification
-    gulp.watch('app/cards/*', ['cards']);
-    gulp.watch('app/engine/*', ['engine']);
+    gulp.watch('app/cards/*', cards());
+    gulp.watch('app/engine/*', engine());
 }
 
 // gulp
