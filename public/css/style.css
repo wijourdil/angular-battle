@@ -1,9 +1,12 @@
+@charset "UTF-8";
 h1 {
   color: #393939;
-  text-align: center; }
+  text-align: center;
+}
 
 body {
-  margin: 0; }
+  margin: 0;
+}
 
 div.grid {
   width: 100%;
@@ -13,111 +16,137 @@ div.grid {
   position: relative;
   margin-bottom: 50px;
   margin-top: 50px;
-  line-height: 80%; }
-  div.grid div.cell {
-    width: calc(7.69231% - 10px);
-    min-width: 120px;
-    height: 100px;
-    display: inline-block;
-    border: 1px solid;
-    transition: all 0.2s;
-    margin: 0 1px;
-    background: #393939;
-    cursor: not-allowed;
-    position: relative; }
-    div.grid div.cell img {
-      padding-bottom: 12px;
-      position: absolute;
-      top: 0;
-      left: calc(50% - 44px);
-      max-width: 100%;
-      max-height: 100%; }
-    div.grid div.cell .progress {
-      position: absolute;
-      height: 10px;
-      width: 100%;
-      border-radius: 0;
-      bottom: 0;
-      margin: 0;
-      border-top: 1px solid rgba(57, 57, 57, 0.7); }
-    div.grid div.cell.discovered {
-      background: white !important;
-      cursor: inherit; }
-    div.grid div.cell.selectable:hover, div.grid div.cell.discovered.selectable:hover {
-      border: 2px solid gold;
-      background-color: rgba(255, 215, 0, 0.15) !important;
-      cursor: pointer; }
-    div.grid div.cell#top-castle, div.grid div.cell#bottom-castle {
-      background: url("/img/crown.png") no-repeat;
-      background-size: contain;
-      background-position: center;
-      display: block;
-      margin-left: calc(50% - 61px);
-      cursor: inherit; }
-      div.grid div.cell#top-castle.selectable, div.grid div.cell#bottom-castle.selectable {
-        cursor: pointer; }
-    div.grid div.cell#top-castle {
-      background-color: rgba(255, 0, 0, 0.65);
-      margin-bottom: 1px; }
-    div.grid div.cell#bottom-castle {
-      background-color: rgba(173, 255, 47, 0.65); }
+  line-height: 80%;
+}
+div.grid div.cell {
+  width: calc(7.6923076923% - 10px);
+  min-width: 120px;
+  height: 100px;
+  display: inline-block;
+  border: 1px solid;
+  transition: all 0.2s;
+  margin: 0 1px;
+  background: #393939;
+  cursor: not-allowed;
+  position: relative;
+}
+div.grid div.cell img {
+  padding-bottom: 12px;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 44px);
+  max-width: 100%;
+  max-height: 100%;
+}
+div.grid div.cell .progress {
+  position: absolute;
+  height: 10px;
+  width: 100%;
+  border-radius: 0;
+  bottom: 0;
+  margin: 0;
+  border-top: 1px solid rgba(57, 57, 57, 0.7);
+}
+div.grid div.cell.discovered {
+  background: white !important;
+  cursor: inherit;
+}
+div.grid div.cell.selectable:hover, div.grid div.cell.discovered.selectable:hover {
+  border: 2px solid gold;
+  background-color: rgba(255, 215, 0, 0.15) !important;
+  cursor: pointer;
+}
+div.grid div.cell#top-castle, div.grid div.cell#bottom-castle {
+  background: url("/img/crown.png") no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  margin-left: calc(50% - 61px);
+  cursor: inherit;
+}
+div.grid div.cell#top-castle.selectable, div.grid div.cell#bottom-castle.selectable {
+  cursor: pointer;
+}
+div.grid div.cell#top-castle {
+  background-color: rgba(255, 0, 0, 0.65);
+  margin-bottom: 1px;
+}
+div.grid div.cell#bottom-castle {
+  background-color: rgba(173, 255, 47, 0.65);
+}
 
 div.bottom {
   display: flex;
-  min-width: 1680px; }
-  div.bottom > div {
-    flex: 1; }
+  min-width: 1680px;
+}
+div.bottom > div {
+  flex: 1;
+}
 
 div.card-block {
   flex: 1;
-  margin-bottom: 50px; }
-  div.card-block .card-name {
-    cursor: pointer;
-    transition: all 0.2s; }
-    div.card-block .card-name.selected {
-      color: rgba(255, 0, 0, 0.65); }
-      div.card-block .card-name.selected::before {
-        content: '\f0da';
-        font-family: FontAwesome;
-        margin-right: 5px; }
-  div.card-block img.icon {
-    width: 25px; }
-  div.card-block .deck {
-    cursor: pointer; }
+  margin-bottom: 50px;
+}
+div.card-block .card-name {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+div.card-block .card-name.selected {
+  color: rgba(255, 0, 0, 0.65);
+}
+div.card-block .card-name.selected::before {
+  content: "";
+  font-family: FontAwesome;
+  margin-right: 5px;
+}
+div.card-block img.icon {
+  width: 25px;
+}
+div.card-block .deck {
+  cursor: pointer;
+}
 
 div.card-details {
   padding: 20px;
   width: 300px;
   display: inline-block;
   border: 2px solid #393939;
-  text-align: center; }
-  div.card-details img {
-    width: 100px; }
-  div.card-details .pv img,
-  div.card-details .atk img,
-  div.card-details .turnsLeft img {
-    height: 26px;
-    width: auto; }
+  text-align: center;
+}
+div.card-details img {
+  width: 100px;
+}
+div.card-details .pv img,
+div.card-details .atk img,
+div.card-details .turnsLeft img {
+  height: 26px;
+  width: auto;
+}
 
 .popover img.pv-icon,
 .popover img.atk-icon,
 .popover img.turnsLeft-icon {
   height: 26px;
-  width: auto; }
+  width: auto;
+}
 
 div.turn {
-  padding-left: 20px; }
-  div.turn .active::before {
-    content: '\f061';
-    margin-right: 5px;
-    font-family: FontAwesome; }
+  padding-left: 20px;
+}
+div.turn .active::before {
+  content: "";
+  margin-right: 5px;
+  font-family: FontAwesome;
+}
 
 div.trash {
   padding-left: 20px;
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+}
 
 .alert {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 div#logs {
   border: 2px solid #393939;
@@ -125,4 +154,5 @@ div#logs {
   height: 200px;
   overflow: hidden;
   margin: 20px;
-  flex: 2; }
+  flex: 2;
+}
